@@ -1,0 +1,64 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh working"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh working"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh notification"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh attention"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh done"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__TABPULSE_DIR__/claude-hooks/claude-hook.sh idle"
+          }
+        ]
+      }
+    ]
+  }
+}

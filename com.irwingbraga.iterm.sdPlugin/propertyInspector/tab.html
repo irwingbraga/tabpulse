@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+body{font:13px -apple-system,sans-serif;color:#ddd;background:#2d2d2d;padding:12px}
+label{display:block;margin-bottom:4px}select{width:100%;padding:4px}
+button{margin-top:8px;padding:4px 10px}small{display:block;margin-top:8px;color:#999}
+</style></head><body>
+<label for="tab">iTerm tab</label>
+<select id="tab"></select>
+<button id="refresh">Refresh tabs</button>
+<small>"Auto" follows button order against the current window's tabs. A chosen tab stays bound until it is closed.</small>
+<script>
+let ws, uuid, ctx, settings = {};
+function render(tabs) {
+	const sel = document.getElementById("tab");
+	sel.innerHTML = "";
+	sel.add(new Option("Auto (by button order)", ""));
+	let found = !settings.sid;
+	for (const t of tabs) { sel.add(new Option(t.label, t.sid)); if (t.sid === settings.sid) found = true; }
+	if (!found) sel.add(new Option("(closed tab)", settings.sid));
+	sel.value = settings.sid || "";
+}
+function request() { ws.send(JSON.stringify({ event: "sendToPlugin", context: uuid, action: actionUUID, payload: { event: "getTabs" } })); }
+let actionUUID;
+function connectElgatoStreamDeckSocket(port, inUUID, registerEvent, info, actionInfo) {
+	uuid = inUUID;
+	const ai = JSON.parse(actionInfo);
+	actionUUID = ai.action;
+	settings = (ai.payload || {}).settings || {};
+	ws = new WebSocket("ws://127.0.0.1:" + port);
+	ws.onopen = () => { ws.send(JSON.stringify({ event: registerEvent, uuid })); request(); };
+	ws.onmessage = (m) => { const d = JSON.parse(m.data); if (d.event === "sendToPropertyInspector") render(d.payload.tabs || []); };
+}
+document.getElementById("refresh").onclick = () => request();
+document.getElementById("tab").onchange = (e) => {
+	settings.sid = e.target.value || null;
+	ws.send(JSON.stringify({ event: "setSettings", context: uuid, payload: settings }));
+};
+</script></body></html>

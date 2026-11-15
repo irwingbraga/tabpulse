@@ -1,0 +1,24 @@
+{
+	"Name": "TabPulse",
+	"Description": "Control iTerm2 tabs and see their activity (including Claude Code) on your deck",
+	"Author": "Irwing Braga",
+	"Version": "0.1.0",
+	"SDKVersion": 2,
+	"CodePath": "run.sh",
+	"CodePathMac": "run.sh",
+	"Icon": "icons/plugin",
+	"Category": "iTerm",
+	"OS": [{ "Platform": "mac", "MinimumVersion": "12" }],
+	"Actions": [
+		{
+			"Name": "iTerm Tab",
+			"UUID": "com.irwingbraga.iterm.tab",
+			"Icon": "icons/tab",
+			"Tooltip": "Switch to an iTerm2 tab and show its activity. Button order (left to right, top to bottom) maps to tab order.",
+			"Controllers": ["Keypad"],
+			"SupportedInMultiActions": false,
+			"States": [{ "Image": "icons/tab" }],
+			"PropertyInspectorPath": "propertyInspector/tab.html"
+		}
+	]
+}
